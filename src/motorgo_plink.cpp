@@ -1,0 +1,51 @@
+#include "motorgo_plink.h"
+
+MotorGo::MotorGoPlink::MotorGoPlink()
+    : ch1(ch1_params, "ch1"),
+      ch2(ch2_params, "ch2"),
+      ch3(ch3_params, "ch3"),
+      ch4(ch4_params, "ch4")
+{
+}
+
+void MotorGo::MotorGoPlink::init()
+{
+  // Init spi bus
+  MotorGo::init_encoder_spi();
+
+  delay(500);
+
+  ch1.init();
+  ch2.init();
+  ch3.init();
+  ch4.init();
+
+  // Create the encoder update task
+  xTaskCreate(MotorGoPlink::encoderUpdateTask,  // Task function
+              "EncoderUpdateTask",  // Name of the task (for debugging)
+              2048,                 // Stack size (in words)
+              this,                 // Task input parameter
+              1,                    // Priority of the task
+              &encoderTaskHandle    // Task handle
+  );
+}
+
+void MotorGo::MotorGoPlink::encoderUpdateTask(void *pvParameters)
+{
+  MotorGoPlink *instance = static_cast<MotorGoPlink *>(pvParameters);
+  while (true)
+  {
+    instance->ch1.loop();
+    vTaskDelay(pdMS_TO_TICKS(10));  // Adjust the delay as needed
+  }
+}
+
+// Optional: a method to stop the task if necessary
+void MotorGo::MotorGoPlink::stop()
+{
+  if (encoderTaskHandle != nullptr)
+  {
+    vTaskDelete(encoderTaskHandle);
+    encoderTaskHandle = nullptr;
+  }
+}

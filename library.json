@@ -1,0 +1,34 @@
+{
+    "name": "MotorGo Plink Driver",
+    "version": "0.1.0",
+    "description": "The MotorGo Plink driver provides an API to interface with the motor controllers on the MotorGo Plink board.",
+    "keywords": "motor, controller, robot",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Every-Flavor-Robotics/motorgo-plink-driver"
+    },
+    "authors": [
+        {
+            "name": "Swapnil Pande",
+            "email": "swapnil.pande98@gmail.com",
+            "url": "https://www.swapnilpande.me"
+        }
+    ],
+    "license": "MIT",
+    "frameworks": "arduino",
+    "platforms": "esp32-s3-motorgo-plink",
+    "dependencies": [
+        {
+            "name": "SimpleFOCDrivers",
+            "version": "https://github.com/SimpleFOC/Arduino-FOC-drivers.git"
+        },
+        {
+            "name": "Wire",
+            "version": "*"
+        },
+        {
+            "name": "SPI",
+            "version": "*"
+        }
+    ]
+}
