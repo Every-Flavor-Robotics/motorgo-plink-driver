@@ -36,7 +36,10 @@ void MotorGo::MotorGoPlink::encoderUpdateTask(void *pvParameters)
   while (true)
   {
     instance->ch1.loop();
-    vTaskDelay(pdMS_TO_TICKS(10));  // Adjust the delay as needed
+    instance->ch2.loop();
+    instance->ch3.loop();
+    instance->ch4.loop();
+    vTaskDelay(pdMS_TO_TICKS(2));  // Adjust the delay as needed
   }
 }
 

@@ -49,8 +49,8 @@ void MotorGo::MotorChannel::set_power(float target)
   //   Update PWM parameters
   if (target_power > 0)
   {
-    ledcWrite(0, int(255 * target_power));
-    ledcWrite(1, 0);
+    ledcWrite(pwm_channel_1, int(255 * target_power));
+    ledcWrite(pwm_channel_2, 0);
   }
   else if (target_power < 0)
   {
