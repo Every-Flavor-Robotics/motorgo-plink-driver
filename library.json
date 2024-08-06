@@ -19,12 +19,14 @@
     "platforms": "esp32-s3-motorgo-plink",
     "dependencies": [
         {
-            "name": "SimpleFOCDrivers",
-            "version": "https://github.com/SimpleFOC/Arduino-FOC-drivers.git"
+            "name": "Simple FOC",
+            "owner": "askuric",
+            "version": "2.3.3"
         },
         {
-            "name": "SimpleFOC",
-            "version": "https://github.com/SimpleFOC/Arduino-FOC-drivers.git#v2.3.3"
+            "name": "SimpleFOCDrivers",
+            "owner": "SimpleFOC",
+            "version": "1.0.7"
         },
         {
             "name": "Wire",
