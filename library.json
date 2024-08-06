@@ -23,6 +23,10 @@
             "version": "https://github.com/SimpleFOC/Arduino-FOC-drivers.git"
         },
         {
+            "name": "SimpleFOC",
+            "version": "https://github.com/SimpleFOC/Arduino-FOC-drivers.git#v2.3.3"
+        },
+        {
             "name": "Wire",
             "version": "*"
         },
