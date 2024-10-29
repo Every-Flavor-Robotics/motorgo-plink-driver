@@ -6,49 +6,49 @@
 #include <Arduino.h>
 #include <SPI.h>
 
-// Pin definitions for the MotorGo Plink 0.1
-#define P39 39
-#define P40 40
-#define P44 41
-#define P47 42
-#define P4 35
-#define P7 36
-#define P3 37
-#define P9 43
-#define P43 44
-#define P38 21
-#define P8 38
-#define P41 47
-#define P42 48
+// // Pin definitions for the MotorGo Plink 0.1
+// #define P39 39
+// #define P40 40
+// #define P44 41
+// #define P47 42
+// #define P4 35
+// #define P7 36
+// #define P3 37
+// #define P9 43
+// #define P43 44
+// #define P38 21
+// #define P8 38
+// #define P41 47
+// #define P42 48
 
 #define M1_PH 15
 #define M1_EN 16
 
-#define M2_PH 17
-#define M2_EN 18
+#define M2_PH 18
+#define M2_EN 17
 
-#define M3_PH 8
-#define M3_EN 3
+#define M3_PH 3
+#define M3_EN 8
 
-#define M4_PH 10
+#define M4_PH 12
 #define M4_EN 11
 
 #define ENC_SDA 6
 #define ENC_SCL 7
 #define ENC_MOSI 45
 
-#define M1_ENC_CS 5
-#define M2_ENC_CS 4
-#define M3_ENC_CS 9
-#define M4_ENC_CS 12
+#define M1_ENC_CS 4
+#define M2_ENC_CS 5
+#define M3_ENC_CS 10
+#define M4_ENC_CS 9
 
 // USB Power and IMU
 #define HIDDEN_SDA 13
 #define HIDDEN_SCL 14
 
 // Qwiic
-#define SDA 2
-#define SCL 1
+#define SDA 1
+#define SCL 2
 
 namespace MotorGo
 {
