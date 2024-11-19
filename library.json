@@ -1,6 +1,6 @@
 {
     "name": "MotorGo Plink Driver",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "The MotorGo Plink driver provides an API to interface with the motor controllers on the MotorGo Plink board.",
     "keywords": "motor, controller, robot",
     "repository": {
@@ -21,12 +21,12 @@
         {
             "name": "Simple FOC",
             "owner": "askuric",
-            "version": "2.3.3"
+            "version": "2.3.4"
         },
         {
             "name": "SimpleFOCDrivers",
             "owner": "SimpleFOC",
-            "version": "1.0.7"
+            "version": "1.0.8"
         },
         {
             "name": "Wire",
