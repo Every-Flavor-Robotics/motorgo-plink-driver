@@ -19,13 +19,9 @@ void MotorGo::MotorChannel::init()
 
   Serial.println("Initializing Motor Channel");
 
-  // Setup PWM
-  ledcSetup(pwm_channel_1, 20000, 8);
-  ledcSetup(pwm_channel_2, 20000, 8);
-
-  // Attach PWM channels
-  ledcAttachPin(in_1, pwm_channel_1);
-  ledcAttachPin(in_2, pwm_channel_2);
+  // Setup PWM channels
+  ledcAttach(in_1, 20000, 8);
+  ledcAttach(in_2, 20000, 8);
 }
 
 void MotorGo::MotorChannel::loop()
@@ -49,25 +45,25 @@ void MotorGo::MotorChannel::set_power(float target)
   //   Update PWM parameters
   if (target_power > 0)
   {
-    ledcWrite(pwm_channel_1, int(255 * target_power));
-    ledcWrite(pwm_channel_2, 0);
+    ledcWrite(in_1, int(255 * target_power));
+    ledcWrite(in_2, 0);
   }
   else if (target_power < 0)
   {
-    ledcWrite(pwm_channel_1, 0);
-    ledcWrite(pwm_channel_2, int(255 * -target_power));
+    ledcWrite(in_1, 0);
+    ledcWrite(in_2, int(255 * -target_power));
   }
   else
   {
     if (brake)
     {
-      ledcWrite(pwm_channel_1, 255);
-      ledcWrite(pwm_channel_2, 255);
+      ledcWrite(in_1, 255);
+      ledcWrite(in_2, 255);
     }
     else
     {
-      ledcWrite(pwm_channel_1, 0);
-      ledcWrite(pwm_channel_2, 0);
+      ledcWrite(in_1, 0);
+      ledcWrite(in_2, 0);
     }
   }
 }
