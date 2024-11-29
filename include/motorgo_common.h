@@ -24,7 +24,7 @@ struct DCChannelParameters
  * voltage control, velocity control, torque control, position control, and
  * their respective open-loop variants.
  */
-enum ControlMode
+enum ControlMode : uint8_t
 {
   None,
   Voltage,
