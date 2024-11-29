@@ -54,8 +54,29 @@ class MotorChannel
    */
   void set_power(float target);
 
+  void set_target_voltage(float target);
+  void set_target_velocity(float target);
+  void set_target_position(float target);
+
   void set_brake();
   void set_coast();
+
+  /**
+   * @brief Enables the motor, it will run the currently set command.
+   */
+  void enable();
+
+  /**
+   * @brief Disables the motor, it will stop running and ignore commands.
+   */
+  void disable();
+
+  /**
+   * @brief Sets the control mode for the motor.
+   * @param mode The desired ControlMode (e.g., Velocity, Position) for the
+   * motor.
+   */
+  void set_control_mode(ControlMode mode);
 
   /**
    * @brief Sets the current position of the motor to zero.
@@ -81,6 +102,13 @@ class MotorChannel
    */
   float get_power();
 
+  /**
+   * @brief Sets the PID parameters for the velocity controller.
+   * @param params The PIDParameters structure to configure the velocity
+   * controller.
+   */
+  void set_velocity_controller(PIDParameters params);
+
  private:
   //    Motor name
   //   Used to store calibration parameters in EEPROM
@@ -94,12 +122,19 @@ class MotorChannel
 
   MagneticSensorMT6701SSI encoder;
 
+  ControlMode control_mode;
+  float target_velocity = 0.0;
+  float target_position = 0.0;
+  float target_voltage = 0.0;
+
   // Percentage of the maximum power the motor should run at
   float target_power = 0.0;
 
   bool brake = false;
 
   float sensor_offset = 0.0;
+
+  bool pid_velocity_enabled = false;
 };
 
 }  // namespace MotorGo

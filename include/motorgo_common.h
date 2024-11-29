@@ -6,50 +6,6 @@
 #include <Arduino.h>
 #include <SPI.h>
 
-// // Pin definitions for the MotorGo Plink 0.1
-// #define P39 39
-// #define P40 40
-// #define P44 41
-// #define P47 42
-// #define P4 35
-// #define P7 36
-// #define P3 37
-// #define P9 43
-// #define P43 44
-// #define P38 21
-// #define P8 38
-// #define P41 47
-// #define P42 48
-
-#define M1_PH 15
-#define M1_EN 16
-
-#define M2_PH 18
-#define M2_EN 17
-
-#define M3_PH 3
-#define M3_EN 8
-
-#define M4_PH 12
-#define M4_EN 11
-
-#define ENC_SDA 6
-#define ENC_SCL 7
-#define ENC_MOSI 45
-
-#define M1_ENC_CS 4
-#define M2_ENC_CS 5
-#define M3_ENC_CS 10
-#define M4_ENC_CS 9
-
-// USB Power and IMU
-#define HIDDEN_SDA 13
-#define HIDDEN_SCL 14
-
-// Qwiic
-#define SDA 1
-#define SCL 2
-
 namespace MotorGo
 {
 
@@ -57,10 +13,67 @@ struct DCChannelParameters
 {
   uint8_t in_1;
   uint8_t in_2;
-  uint8_t pwm_channel_1;
-  uint8_t pwm_channel_2;
   uint8_t enc_cs;
 };
+
+/**
+ * @enum ControlMode
+ * @brief Enumerates the control modes for motor operation.
+ *
+ * This enumeration defines various modes of operation for the motor, such as
+ * voltage control, velocity control, torque control, position control, and
+ * their respective open-loop variants.
+ */
+enum ControlMode
+{
+  None,
+  Voltage,
+  Velocity,
+  Position,
+  VelocityOpenLoop
+};
+
+/**
+ * @struct PIDParameters
+ * @brief Structure holding PID controller parameters.
+ *
+ * This structure encapsulates the proportional (P), integral (I), and
+ * derivative (D) parameters used in PID control, along with additional
+ * parameters such as output ramp rate, low pass filter time constant, and
+ * limit for the output.
+ */
+struct PIDParameters
+{
+  float p;
+  float i;
+  float d;
+  float output_ramp = 10000.0f;
+  float lpf_time_constant = 0.1f;
+  float limit = 10000.0f;
+};
+
+/**
+ * @union packed_pid_parameters_t
+ * @brief Union representing PID parameters in packed and raw byte formats.
+ *
+ * This union allows PIDParameters to be accessed either as a struct with
+ * individual fields or as a raw byte array, facilitating easy storage or
+ * transmission.
+ */
+typedef union
+{
+  struct __attribute__((packed))
+  {
+    float p;
+    float i;
+    float d;
+    float output_ramp;
+    float lpf_time_constant;
+    float limit;
+  };
+
+  uint8_t raw[sizeof(PIDParameters)];
+} packed_pid_parameters_t;
 
 /**
  * @struct ChannelConfiguration

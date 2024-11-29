@@ -32,11 +32,7 @@ void MotorGo::MotorChannel::init()
   Serial.println("Initializing Motor Channel");
 }
 
-void MotorGo::MotorChannel::loop()
-{
-  // Update the PID controlller state
-  encoder.update();
-}
+void MotorGo::MotorChannel::loop() { motor.move(); }
 
 // Getters
 float MotorGo::MotorChannel::get_position() { return encoder.getAngle(); }
@@ -50,7 +46,8 @@ void MotorGo::MotorChannel::set_power(float target)
   // Constrain the target power to the range [-1, 1]
   target_power = _constrain(target, -1.0f, 1.0f);
 
-  motor.move(target_power);
+  // Set the target voltage, using target as a percentage of the voltage limit
+  set_target_voltage(target_power * driver.voltage_power_supply);
 }
 
 void MotorGo::MotorChannel::set_brake() { brake = true; }
@@ -63,4 +60,97 @@ void MotorGo::MotorChannel::zero_position()
   //   Add current sensor_offset back to the current shaft angle to
   //   recover the filtered (but not offset) angle
   sensor_offset = encoder.getAngle() + sensor_offset;
+}
+
+void MotorGo::MotorChannel::set_control_mode(MotorGo::ControlMode control_mode)
+{
+  // Save control mode
+  this->control_mode = control_mode;
+
+  //   Switch for control mode
+  switch (control_mode)
+  {
+    case MotorGo::ControlMode::Voltage:
+      motor.torque_controller = TorqueControlType::voltage;
+      motor.controller = MotionControlType::torque;
+      break;
+    case MotorGo::ControlMode::Velocity:
+      motor.torque_controller = TorqueControlType::voltage;
+      motor.controller = MotionControlType::velocity;
+      break;
+    case MotorGo::ControlMode::Position:
+      motor.torque_controller = TorqueControlType::voltage;
+      motor.controller = MotionControlType::angle;
+      break;
+    case MotorGo::ControlMode::VelocityOpenLoop:
+      motor.torque_controller = TorqueControlType::voltage;
+      motor.controller = MotionControlType::velocity_openloop;
+      break;
+    default:
+      Serial.println("Invalid control mode");
+      break;
+  }
+}
+
+void MotorGo::MotorChannel::set_target_voltage(float target)
+{
+  target_voltage = target;
+  motor.move(target_voltage);
+}
+
+void MotorGo::MotorChannel::set_target_velocity(float target)
+{
+  target_velocity = target;
+
+  //   if (velocity_limit_enabled)
+  //   {
+  //     target_velocity =
+  //         _constrain(target_velocity, -velocity_limit, velocity_limit);
+  //   }
+
+  // If the control mode is velocity open loop, move the motor
+  // If closed loop velocity, move the motor only if PID params are set
+  switch (control_mode)
+  {
+    case MotorGo::ControlMode::VelocityOpenLoop:
+      //   motor.move(target_velocity);
+      Serial.println("Velocity Open Loop not implemented");
+      break;
+    case MotorGo::ControlMode::Velocity:
+      if (pid_velocity_enabled)
+      {
+        motor.move(target_velocity);
+      }
+      else
+      {
+        Serial.println("PID loop not configured for velocity control");
+        disable();
+      }
+      break;
+  }
+}
+
+void MotorGo::MotorChannel::enable()
+{
+  // Enable the motor
+  motor.enable();
+}
+
+void MotorGo::MotorChannel::disable()
+{
+  // Disable the motor
+  motor.disable();
+}
+
+void MotorGo::MotorChannel::set_velocity_controller(
+    MotorGo::PIDParameters params)
+{
+  motor.PID_velocity.P = params.p;
+  motor.PID_velocity.I = params.i;
+  motor.PID_velocity.D = params.d;
+  motor.PID_velocity.output_ramp = params.output_ramp;
+  //   motor.PID_velocity.limit = params.limit;
+  motor.LPF_velocity.Tf = params.lpf_time_constant;
+
+  pid_velocity_enabled = true;
 }

@@ -25,33 +25,25 @@ class MotorGoPlink
   DCChannelParameters ch1_params = {
       .in_1 = M1_PH,
       .in_2 = M1_EN,
-      .pwm_channel_1 = 0,
-      .pwm_channel_2 = 1,
-      .enc_cs = M1_ENC_CS,
+      .enc_cs = CH1_ENC_CS,
   };
 
   DCChannelParameters ch2_params = {
       .in_1 = M2_PH,
       .in_2 = M2_EN,
-      .pwm_channel_1 = 2,
-      .pwm_channel_2 = 3,
-      .enc_cs = M2_ENC_CS,
+      .enc_cs = CH2_ENC_CS,
   };
 
   DCChannelParameters ch3_params = {
       .in_1 = M3_PH,
       .in_2 = M3_EN,
-      .pwm_channel_1 = 4,
-      .pwm_channel_2 = 5,
-      .enc_cs = M3_ENC_CS,
+      .enc_cs = CH3_ENC_CS,
   };
 
   DCChannelParameters ch4_params = {
       .in_1 = M4_PH,
       .in_2 = M4_EN,
-      .pwm_channel_1 = 6,
-      .pwm_channel_2 = 7,
-      .enc_cs = M4_ENC_CS,
+      .enc_cs = CH4_ENC_CS,
   };
 
   // Task handle for the FreeRTOS task
