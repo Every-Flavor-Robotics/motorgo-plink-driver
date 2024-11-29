@@ -64,6 +64,12 @@ void MotorGo::MotorChannel::zero_position()
 
 void MotorGo::MotorChannel::set_control_mode(MotorGo::ControlMode control_mode)
 {
+  // Do nothing if the control mode is already set
+  if (this->control_mode == control_mode)
+  {
+    return;
+  }
+
   // Save control mode
   this->control_mode = control_mode;
 
