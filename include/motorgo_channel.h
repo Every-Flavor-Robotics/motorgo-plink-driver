@@ -7,6 +7,7 @@
 #include <SimpleFOC.h>
 #include <Wire.h>
 
+#include "SimpleDCMotor.h"
 #include "encoders/calibrated/CalibratedSensor.h"
 #include "encoders/mt6701/MagneticSensorMT6701SSI.h"
 #include "motorgo_common.h"
@@ -87,8 +88,9 @@ class MotorChannel
 
   const int in_1;
   const int in_2;
-  const int pwm_channel_1;
-  const int pwm_channel_2;
+
+  DCMotor motor;
+  DCDriver2PWM driver;
 
   MagneticSensorMT6701SSI encoder;
 

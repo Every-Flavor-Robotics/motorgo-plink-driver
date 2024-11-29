@@ -6,22 +6,30 @@ MotorGo::MotorChannel::MotorChannel(DCChannelParameters params,
     : name(name),
       in_1(params.in_1),
       in_2(params.in_2),
-      pwm_channel_1(params.pwm_channel_1),
-      pwm_channel_2(params.pwm_channel_2),
+      motor(DCMotor()),
+      driver(DCDriver2PWM(in_1, in_2)),
       encoder(MagneticSensorMT6701SSI(params.enc_cs))
 {
 }
 
 void MotorGo::MotorChannel::init()
 {
+  driver.voltage_power_supply = 5.0;
+  driver.voltage_limit = 17;
+  driver.pwm_frequency = 20000;
+  driver.init();
+
   // Init encoder
   encoder.init(&MotorGo::hspi);
 
-  Serial.println("Initializing Motor Channel");
+  motor.linkDriver(&driver);
+  motor.linkSensor(&encoder);
+  motor.voltage_limit = 5.0;
+  motor.controller = MotionControlType::torque;
+  motor.torque_controller = TorqueControlType::voltage;
+  motor.init();
 
-  // Setup PWM channels
-  ledcAttach(in_1, 20000, 8);
-  ledcAttach(in_2, 20000, 8);
+  Serial.println("Initializing Motor Channel");
 }
 
 void MotorGo::MotorChannel::loop()
@@ -42,30 +50,7 @@ void MotorGo::MotorChannel::set_power(float target)
   // Constrain the target power to the range [-1, 1]
   target_power = _constrain(target, -1.0f, 1.0f);
 
-  //   Update PWM parameters
-  if (target_power > 0)
-  {
-    ledcWrite(in_1, int(255 * target_power));
-    ledcWrite(in_2, 0);
-  }
-  else if (target_power < 0)
-  {
-    ledcWrite(in_1, 0);
-    ledcWrite(in_2, int(255 * -target_power));
-  }
-  else
-  {
-    if (brake)
-    {
-      ledcWrite(in_1, 255);
-      ledcWrite(in_2, 255);
-    }
-    else
-    {
-      ledcWrite(in_1, 0);
-      ledcWrite(in_2, 0);
-    }
-  }
+  motor.move(target_power);
 }
 
 void MotorGo::MotorChannel::set_brake() { brake = true; }
