@@ -85,6 +85,12 @@ class MotorChannel
   void zero_position();
 
   /**
+   * @brief Retrieves the current ControlMode of the motor.
+   * @return The current ControlMode of the motor.
+   */
+  ControlMode get_control_mode();
+
+  /**
    * @brief Retrieves the current velocity of the motor.
    * @return The motor's velocity in rad/s.
    */
