@@ -98,6 +98,11 @@ void MotorGo::MotorChannel::set_control_mode(MotorGo::ControlMode control_mode)
   }
 }
 
+MotorGo::ControlMode MotorGo::MotorChannel::get_control_mode()
+{
+  return control_mode;
+}
+
 void MotorGo::MotorChannel::set_target_voltage(float target)
 {
   target_voltage = target;
