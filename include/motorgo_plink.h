@@ -55,7 +55,6 @@ class MotorGoPlink
  public:
   MotorGoPlink();
 
-  void init();
   void stop();  // Method to stop the FreeRTOS task
 
   // Define the four motor channels on the MotorGo Plink

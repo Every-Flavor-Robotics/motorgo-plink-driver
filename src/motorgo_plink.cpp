@@ -6,10 +6,6 @@ MotorGo::MotorGoPlink::MotorGoPlink()
       ch3(ch3_params, "ch3"),
       ch4(ch4_params, "ch4")
 {
-}
-
-void MotorGo::MotorGoPlink::init()
-{
   // Init spi bus
   MotorGo::init_encoder_spi();
 
