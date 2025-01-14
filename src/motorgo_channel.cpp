@@ -15,7 +15,7 @@ MotorGo::MotorChannel::MotorChannel(DCChannelParameters params,
 void MotorGo::MotorChannel::init(ChannelConfiguration channel_config)
 {
   driver.voltage_power_supply = channel_config.power_supply_voltage;
-  driver.voltage_limit = 15.0;
+  driver.voltage_limit = channel_config.voltage_limit;
   driver.pwm_frequency = 20000;
   driver.init();
 
