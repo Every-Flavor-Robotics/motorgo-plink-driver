@@ -15,7 +15,7 @@ MotorGo::MotorChannel::MotorChannel(DCChannelParameters params,
 void MotorGo::MotorChannel::init(ChannelConfiguration channel_config)
 {
   driver.voltage_power_supply = channel_config.power_supply_voltage;
-  driver.voltage_limit = channel_config.voltage_limit;
+  driver.voltage_limit = 15.0;
   driver.pwm_frequency = 20000;
   driver.init();
 
@@ -24,7 +24,7 @@ void MotorGo::MotorChannel::init(ChannelConfiguration channel_config)
 
   motor.linkDriver(&driver);
   motor.linkSensor(&encoder);
-  motor.voltage_limit = 5.0;
+  motor.voltage_limit = channel_config.voltage_limit;
   motor.controller = MotionControlType::torque;
   motor.torque_controller = TorqueControlType::voltage;
   motor.init();
