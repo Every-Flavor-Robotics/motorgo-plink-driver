@@ -12,10 +12,10 @@ MotorGo::MotorChannel::MotorChannel(DCChannelParameters params,
 {
 }
 
-void MotorGo::MotorChannel::init()
+void MotorGo::MotorChannel::init(ChannelConfiguration channel_config)
 {
-  driver.voltage_power_supply = 5.0;
-  driver.voltage_limit = 17;
+  driver.voltage_power_supply = channel_config.power_supply_voltage;
+  driver.voltage_limit = channel_config.voltage_limit;
   driver.pwm_frequency = 20000;
   driver.init();
 
@@ -29,10 +29,17 @@ void MotorGo::MotorChannel::init()
   motor.torque_controller = TorqueControlType::voltage;
   motor.init();
 
-  Serial.println("Initializing Motor Channel");
+  Serial.println("Initialized Motor Channel");
+  initialized = true;
 }
 
-void MotorGo::MotorChannel::loop() { motor.move(); }
+void MotorGo::MotorChannel::loop()
+{
+  if (initialized)
+  {
+    motor.move();
+  }
+}
 
 // Getters
 float MotorGo::MotorChannel::get_position() { return encoder.getAngle(); }

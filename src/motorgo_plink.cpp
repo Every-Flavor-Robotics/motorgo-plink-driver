@@ -13,12 +13,7 @@ void MotorGo::MotorGoPlink::init()
   // Init spi bus
   MotorGo::init_encoder_spi();
 
-  delay(500);
-
-  ch1.init();
-  ch2.init();
-  ch3.init();
-  ch4.init();
+  delay(10);
 
   // Create the encoder update task
   xTaskCreate(MotorGoPlink::encoderUpdateTask,  // Task function

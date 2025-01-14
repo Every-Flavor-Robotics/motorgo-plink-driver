@@ -39,7 +39,7 @@ class MotorChannel
   MotorChannel& operator=(const MotorChannel&) =
       delete;  // Delete copy assignment operator
 
-  void init();
+  void init(ChannelConfiguration channel_config);
 
   /**
    * @brief Runs the control loop for the motor channel and updates encoder
@@ -126,6 +126,8 @@ class MotorChannel
   DCMotor motor;
   DCDriver2PWM driver;
 
+  ChannelConfiguration channel_config;
+
   MagneticSensorMT6701SSI encoder;
 
   ControlMode control_mode;
@@ -141,6 +143,8 @@ class MotorChannel
   float sensor_offset = 0.0;
 
   bool pid_velocity_enabled = false;
+
+  bool initialized = false;
 };
 
 }  // namespace MotorGo

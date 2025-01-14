@@ -86,6 +86,8 @@ typedef union
 struct ChannelConfiguration
 {
   float reversed;
+  float power_supply_voltage;
+  float voltage_limit;
 };
 
 /**
